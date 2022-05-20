@@ -1,0 +1,3 @@
+// IN PROD THIS SHOULD NOT BE COMMITED.
+
+export const JSON_SIGNATURE = '14salkdj3423asd+a4734_!@34a'
