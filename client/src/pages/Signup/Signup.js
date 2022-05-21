@@ -5,6 +5,9 @@ import { Form } from "react-bootstrap";
 import {
   Redirect
 } from 'react-router-dom';
+import {
+  useNavigate,
+} from 'react-router-dom';
 
 const SIGNUP = gql`
   mutation Signup(
@@ -28,6 +31,7 @@ const SIGNUP = gql`
 
 export default function Signup() {
   const [signup, { data, loading }] = useMutation(SIGNUP);
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,6 +50,7 @@ export default function Signup() {
   };
 
   const [error, setError] = useState(null);
+  const goToSignIn = () => navigate('/signin');
 
   useEffect(() => {
     if (data) {
@@ -54,11 +59,7 @@ export default function Signup() {
       }
       if (data.signup.token) {
         localStorage.setItem("token", data.signup.token);
-        return <Redirect
-          to={{
-            pathname: "/",
-          }}
-        />
+        goToSignIn()
       }
     }
   }, [data]);

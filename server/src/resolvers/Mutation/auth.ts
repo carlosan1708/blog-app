@@ -25,6 +25,7 @@ interface UserPayload {
     message: string;
   }[];
   token: string | null;
+  userId: number | null;
 }
 
 export const authResolvers = {
@@ -45,6 +46,7 @@ export const authResolvers = {
           },
         ],
         token: null,
+        userId: null,
       };
     }
 
@@ -63,6 +65,7 @@ export const authResolvers = {
           },
         ],
         token: null,
+        userId: null,
       };
     }
 
@@ -78,6 +81,7 @@ export const authResolvers = {
           },
         ],
         token: null,
+        userId: null,
       };
     }
 
@@ -89,6 +93,7 @@ export const authResolvers = {
           },
         ],
         token: null,
+        userId: null,
       };
     }
 
@@ -120,6 +125,7 @@ export const authResolvers = {
           expiresIn: 3600000,
         }
       ),
+      userId: user.id
     };
   },
   signin: async (
@@ -134,11 +140,11 @@ export const authResolvers = {
         email,
       },
     });
-
     if (!user) {
       return {
         userErrors: [{ message: "Invalid credentials" }],
         token: null,
+        userId: null,
       };
     }
 
@@ -148,14 +154,15 @@ export const authResolvers = {
       return {
         userErrors: [{ message: "Invalid credentials" }],
         token: null,
+        userId: null,
       };
     }
-
     return {
       userErrors: [],
       token: JWT.sign({ userId: user.id }, JSON_SIGNATURE, {
         expiresIn: 3600000,
       }),
+      userId: user.id
     };
   },
 };

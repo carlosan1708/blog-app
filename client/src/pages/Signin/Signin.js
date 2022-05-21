@@ -13,6 +13,7 @@ const SIGNUP = gql`
         message
       }
       token
+      userId
     }
   }
 `;
@@ -24,8 +25,7 @@ export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const goToPostsPage = () => navigate('/posts');
-
+  const goToPostsPage = (id) => navigate(`/profile/${id}`);
   const handleClick = () => {
     signup({
       variables: {
@@ -42,10 +42,9 @@ export default function Signin() {
       if (data.signin.userErrors.length) {
         setError(data.signin.userErrors[0].message);
       }
-      if (data.signin.token) {
-        alert("Login")
+      if (data.signin.token && data.signin.userId) {
         localStorage.setItem("token", data.signin.token);
-        goToPostsPage();
+        goToPostsPage(data.signin.userId);
       }
     }
   }, [data]);

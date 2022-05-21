@@ -1,7 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import Post from "./components/Post/Post";
-import { Route, Switch } from "react-router";
+import { Routes ,Route } from 'react-router-dom';
 import Posts from "./pages/Posts/Posts";
 import Profile from "./pages/Profile/Profile";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -11,12 +10,12 @@ import Signin from "./pages/Signin/Signin";
 function App() {
   return (
     <div className="App">
-      <Switch>
-        <Route strict exact path="/posts" component={Posts} />
-        <Route strict exact path="/signup" component={Signup} />
-        <Route strict exact path="/" component={Signin} />
-        <Route strict exact path="/profile/:id" component={Profile} />
-      </Switch>
+      <Routes>
+        <Route strict exact path="/" element={<Posts/>} />
+        <Route strict exact path="/signup" element={<Signup/>} />
+        <Route strict exact path="/signin" element={<Signin/>} />
+        <Route strict exact path="/profile/:id" element={<Profile/>} />
+      </Routes>
     </div>
   );
 }

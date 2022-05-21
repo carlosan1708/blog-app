@@ -10,6 +10,8 @@ Technologies:
 docker run -it -p 4000:4000 blog-app_prisma-postgres-api
 
 
+prisma migrate dev
+
 https://github.com/Faithdroid/create-and-run-a-prisma-server-with-docker-containers/blob/main/Dockerfile
 
 docker rmi -f $(docker images -aq)

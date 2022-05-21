@@ -1,4 +1,4 @@
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, refetchQueries } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import AddPostModal from "../../components/AddPostModal/AddPostModal";
@@ -33,17 +33,11 @@ export default function Profile() {
   const { data, error, loading, refetch } = useQuery(GET_PROFILE, {
     variables: {
       userId: id,
-      fetchPolicy: 'cache-and-network',
-      nextFetchPolicy: 'cache-first',
     },
-    fetchPolicy: 'cache-and-network',
-    nextFetchPolicy: 'cache-first',
-  }, {
-    fetchPolicy: 'no-cache',
-    nextFetchPolicy: 'no-cache',
   });
   useEffect(() => {
     setNeedsReload(false);
+    refetch()
   }, [needsReload])
 
   if (loading) return <p>Loading....</p>

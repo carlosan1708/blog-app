@@ -1,6 +1,7 @@
 import { useMutation, gql } from "@apollo/client";
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+import { GET_POSTS } from "../../pages/Posts/Posts";
 
 const CREATE_POST = gql`
   mutation CreatePost($title: String!, $content: String!) {
@@ -35,8 +36,8 @@ export default function AddPostModal(props) {
         content,
       },
     });
-    console.log("is True")
     setNeedsReload(true);
+    handleClose()
   };
 
   return (
