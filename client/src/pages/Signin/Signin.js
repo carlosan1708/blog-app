@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useCallback} from "react";
 import {
   useNavigate,
 } from 'react-router-dom';
@@ -20,12 +20,13 @@ const SIGNUP = gql`
 
 export default function Signin() {
   const navigate = useNavigate();
-  const [signup, { data, loading }] = useMutation(SIGNUP);
+  const [signup, { data}] = useMutation(SIGNUP);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const goToPostsPage = (id) => navigate(`/profile/${id}`);
+  const goToPostsPage = useCallback((id) => navigate(`/profile/${id}`),[navigate]);
+
   const handleClick = () => {
     signup({
       variables: {
@@ -47,7 +48,7 @@ export default function Signin() {
         goToPostsPage(data.signin.userId);
       }
     }
-  }, [data]);
+  }, [data, goToPostsPage]);
 
   return (
     <div>

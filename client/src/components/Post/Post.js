@@ -23,6 +23,7 @@ const UNPUBLISH_POST = gql`
 `;
 
 export default function Post({
+  refetchPost,
   title,
   content,
   date,
@@ -31,9 +32,14 @@ export default function Post({
   id,
   isMyProfile,
 }) {
-  const [publishPost, { data, loading }] = useMutation(PUBLISH_POST);
-  const [unpublishPost, { data: unpublishData, loading: unpublishLoading }] =
+  const [publishPost, { loadingP, errorP }] = useMutation(PUBLISH_POST);
+  const [unpublishPost,  { loadingU, errorU }] =
     useMutation(UNPUBLISH_POST);
+
+
+  if (loadingP || loadingU) return 'Submitting...';
+  if (errorP ) return `Submission error! ${errorP.message}`;
+  if (errorU) return `Submission error! ${errorU.message}`;
 
   const formatedDate = new Date(Number(date));
   return (
@@ -44,12 +50,13 @@ export default function Post({
       {isMyProfile && published === false && (
         <p
           className="Post__publish"
-          onClick={() => {
-            publishPost({
+          onClick={async () => {
+            await publishPost({
               variables: {
                 postId: id,
               },
             });
+            refetchPost();
           }}
         >
           publish
@@ -58,12 +65,13 @@ export default function Post({
       {isMyProfile && published === true && (
         <p
           className="Post__publish"
-          onClick={() => {
-            unpublishPost({
+          onClick={async () => {
+            await unpublishPost({
               variables: {
                 postId: id,
               },
             });
+            refetchPost();
           }}
         >
           unpublish

@@ -1,10 +1,7 @@
 import { useMutation, gql } from "@apollo/client";
 import Button from "@restart/ui/esm/Button";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Form } from "react-bootstrap";
-import {
-  Redirect
-} from 'react-router-dom';
 import {
   useNavigate,
 } from 'react-router-dom';
@@ -30,7 +27,7 @@ const SIGNUP = gql`
 `;
 
 export default function Signup() {
-  const [signup, { data, loading }] = useMutation(SIGNUP);
+  const [signup, { data}] = useMutation(SIGNUP);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -50,7 +47,7 @@ export default function Signup() {
   };
 
   const [error, setError] = useState(null);
-  const goToSignIn = () => navigate('/signin');
+  const goToSignIn = useCallback(() => navigate('/signin'), [navigate]);
 
   useEffect(() => {
     if (data) {
@@ -62,7 +59,7 @@ export default function Signup() {
         goToSignIn()
       }
     }
-  }, [data]);
+  }, [data, goToSignIn]);
   
   return (
     <div>

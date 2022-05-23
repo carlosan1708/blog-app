@@ -1,8 +1,13 @@
-import { useQuery, gql, refetchQueries } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import { useQuery, gql } from "@apollo/client";
+import React, { useState } from "react";
 import { useParams } from "react-router";
 import AddPostModal from "../../components/AddPostModal/AddPostModal";
 import Post from "../../components/Post/Post";
+import {
+  useNavigate,
+} from 'react-router-dom';
+import { Button } from "react-bootstrap";
+import {  Container, Row, Col } from "react-bootstrap";
 
 const GET_PROFILE = gql`
   query GetProfile($userId: ID!) {
@@ -24,21 +29,18 @@ const GET_PROFILE = gql`
 `;
 
 export default function Profile() {
+  const navigate = useNavigate();
   const { id } = useParams();
-  const [needsReload, setNeedsReload] = useState(false)
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const goToPostsPage = (id) => navigate(`/`);
 
   const { data, error, loading, refetch } = useQuery(GET_PROFILE, {
     variables: {
       userId: id,
     },
   });
-  useEffect(() => {
-    setNeedsReload(false);
-    refetch()
-  }, [needsReload])
 
   if (loading) return <p>Loading....</p>
   if (error) return <p>Ops! Something went wrong</p>
@@ -63,17 +65,32 @@ export default function Profile() {
               <h1>{profile.user.name}</h1>
               <p>{profile.bio}</p>
             </div>
-            <div>{profile.isMyProfile ? <AddPostModal setNeedsReload={setNeedsReload}
-              handleClose={handleClose}
-              handleShow={handleShow}
-              show={show}
-            /> : null}</div>
+            <div>
+              {profile.isMyProfile ? <>
+                <Container>
+                  <Row>
+                    <Col>
+                      <Button onClick={goToPostsPage}>Posts</Button>
+                    </Col><Col>
+                      <AddPostModal refetchPost={refetch}
+                        handleClose={handleClose}
+                        handleShow={handleShow}
+                        show={show}
+                      /> </Col>
+                  </Row> </Container>
+                <>
+                </>
+              </> : null
+              }
+
+            </div>
           </div>
           <div>
 
             {profile.user.posts.map((post, index) => {
               return (
                 <Post
+                  refetchPost={refetch}
                   key={index}
                   title={post.title}
                   content={post.content}

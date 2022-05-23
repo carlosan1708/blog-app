@@ -1,7 +1,6 @@
 import { useMutation, gql } from "@apollo/client";
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { GET_POSTS } from "../../pages/Posts/Posts";
 
 const CREATE_POST = gql`
   mutation CreatePost($title: String!, $content: String!) {
@@ -23,27 +22,29 @@ const CREATE_POST = gql`
 
 export default function AddPostModal(props) {
 
-  const {setNeedsReload, handleClose, handleShow, show} = props;
+  const {refetchPost, handleClose, handleShow, show} = props;
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
 
-  const [addPost, { data, loading }] = useMutation(CREATE_POST);
-
-  const handleClick = () => {
-    addPost({
+  const [addPost, {data}] = useMutation(CREATE_POST);
+  const handleClick = async () => {
+    await addPost({
       variables: {
         title,
         content,
       },
     });
-    setNeedsReload(true);
+    if (data?.postCreate?.userErrors) {
+      alert( `Submission error! ${data.postCreate.userErrors[0].message}`)
+    } 
+    refetchPost();
     handleClose()
   };
 
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
-        Add Post
+        Add
       </Button>
 
       <Modal
