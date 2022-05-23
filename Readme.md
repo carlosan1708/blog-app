@@ -6,14 +6,27 @@ Technologies:
 - React
 - Typescript
 
+Based on GraphQL course.
 
-docker run -it -p 4000:4000 blog-app_prisma-postgres-api
+Improvements:
+- Modification of few API's
+- Improve overall flow of the application, state was totally disconnected. 
+
+How to run:
+
+1) In terminal with Docker Desktop install, execute: ```docker compose up```
+2) Navigate to your Docker Desktop and locate blog app, open it and locate server-api, then click on CLI
+3) Execute: ```npx prisma migrate dev``` this will create the migration for the database which is required for the app and cannot be part of Dockerfile.
+4) Access: http://localhost:3000/ for App.
+5) Access: http://localhost:4000/ for GraphQL Studio.
+6) Click SignUp, create user, then signI
 
 
-prisma migrate dev
+TODO:
+- Improve more the state on React app, specially the SignIn piece.
+- Post Button on profile is not nice.
 
-https://github.com/Faithdroid/create-and-run-a-prisma-server-with-docker-containers/blob/main/Dockerfile
 
-docker rmi -f $(docker images -aq)
+This post help a lot on dockerizing the app,
 
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MjU3OTA2NiwiZXhwIjoxNjU2MTc5MDY2fQ.LCPCugpBO2bg5O620P3Ar9gZ_xIriNSdWKBqblv_-iA
+https://www.section.io/engineering-education/dockerized-prisma-postgres-api/

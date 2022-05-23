@@ -30,5 +30,4 @@ EXPOSE 4000
 
 # A command to start the server
 
-RUN ls
 CMD npm run dev

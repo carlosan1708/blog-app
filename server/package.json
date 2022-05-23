@@ -24,9 +24,6 @@
     "pm2": "^5.2.0",
     "validator": "^13.6.0"
   },
-  "resolutions": {
-    "autoprefixer": "10.4.5"
-  },
   "devDependencies": {
     "prisma": "^3.3.0",
     "ts-node-dev": "^1.1.8",

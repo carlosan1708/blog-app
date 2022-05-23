@@ -34,12 +34,14 @@ export default function AddPostModal(props) {
         content,
       },
     });
-    if (data?.postCreate?.userErrors) {
+    if (data?.postCreate?.userErrors && data?.postCreate?.userErrors.length > 0) {
       alert( `Submission error! ${data.postCreate.userErrors[0].message}`)
     } 
-    refetchPost();
+    await refetchPost();
     handleClose()
   };
+
+
 
   return (
     <>
@@ -90,6 +92,7 @@ export default function AddPostModal(props) {
             Add
           </Button>
         </Modal.Footer>
+        
       </Modal>
     </>
   );
